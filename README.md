@@ -15,7 +15,29 @@ Aplikasi ini dibangun untuk mengelola operasional gudang secara efisien dengan a
 5. Jalankan server: `php artisan serve`
 
 ## Arsitektur
+Aplikasi ini mengadopsi prinsip *Clean Architecture* dengan memisahkan tanggung jawab menjadi beberapa lapisan (*layers*) untuk menjaga kode tetap rapi, *testable*, dan *maintainable*.
 
+## Arsitektur
+Aplikasi ini mengadopsi prinsip *Clean Architecture* dengan memisahkan tanggung jawab menjadi beberapa lapisan (*layers*) untuk menjaga kode tetap rapi, *testable*, dan *maintainable*.
+
+### Struktur Layer:
+1. **Presentation Layer (`Controllers`):** Menangani *request* HTTP dan mengembalikan *response*. Tidak mengandung logika bisnis.
+2. **Service Layer:** Menampung logika bisnis utama dan validasi kompleks.
+3. **Repository Layer:** Bertindak sebagai lapisan abstraksi data. `Controller` dan `Service` berinteraksi dengan `Repository` untuk mengakses database, sehingga aplikasi tidak bergantung langsung pada *Eloquent Model*.
+4. **Infrastructure Layer:** Berisi `Models`, `Observers` (untuk *lifecycle hooks* stok), dan `Jobs` (untuk *asynchronous processing* via Redis Queue).
+
+### Flow Data:
+```mermaid
+graph LR
+    A[Request/HTTP] --> B[Controller]
+    B --> C[Service Layer]
+    C --> D[Repository Layer]
+    D --> E[Eloquent Models]
+    E -.-> F[Observer/Event]
+    F -.-> G[Redis Queue]
 
 ## Dokumentasi API
 Dokumentasi Swagger tersedia di `/api/documentation`.
+
+## Screenshots
+![Dashboard](screenshots/)

@@ -1,0 +1,29 @@
+1. Request: Login (Authentication)
+Ini request pertama yang harus dipanggil.
+Method: POST
+URL: [http://127.0.0.1:8000/api/login](http://127.0.0.1:8000/api/login)
+JSON{ "email": "admin@wms.com", "password": "password123"}
+Catatan: Setelah Send, kamu akan dapat access_token. Copy token tersebut.
+
+2. Request: Get All Products (Master Data)
+Method: GET
+URL: [http://127.0.0.1:8000/api/products](http://127.0.0.1:8000/api/products)
+Authorization:
+Pilih tab Authorization.
+Type: Bearer Token.
+Token: (Paste token yang kamu dapat dari Login tadi).
+
+
+3. Request: Create Product (Master Data)
+Method: POST
+URL: [http://127.0.0.1:8000/api/products](http://127.0.0.1:8000/api/products)
+Authorization: (Sama seperti langkah 2, pilih Bearer Token dan masukkan token).
+JSON{ "name": "Meja Kerja Baru", "sku": "MEJ-002", "price": 750000, "stock": 10, "category_id": 1, "supplier_id": 1}
+
+4. Request: Create Purchase (Transaction)
+Method: POST
+URL: [http://127.0.0.1:8000/api/purchases](http://127.0.0.1:8000/api/purchases)
+Authorization: (Sama seperti langkah 2, pilih Bearer Token).
+JSON{ "supplier_id": 1, "items": [ { "product_id": 1, "quantity": 5, "price": 15000000 } ]}
+
+EndFragment
