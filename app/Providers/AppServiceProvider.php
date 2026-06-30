@@ -9,6 +9,10 @@ use Illuminate\Support\ServiceProvider;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
 
+// Tambahkan dua baris ini untuk memanggil Model dan Observer
+use App\Models\StockMovement;
+use App\Observers\StockMovementObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+    // Daftarkan Observer
+        StockMovement::observe(StockMovementObserver::class);
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
             return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
         });
