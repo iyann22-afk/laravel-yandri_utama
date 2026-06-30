@@ -9,10 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+public function up(): void
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->comment('Staff yang bertanggung jawab');
+            $table->enum('movement_type', ['in', 'out', 'transfer', 'adjustment']);
+            $table->integer('quantity');
+            $table->string('reference')->nullable()->comment('Contoh: Nomor Invoice/Receipt');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
