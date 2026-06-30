@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\StockMovement;
+use App\Events\StockBelowThreshold; // Pastikan import Event ini
 
 class StockMovementObserver
 {
@@ -19,6 +20,11 @@ class StockMovementObserver
             $product->increment('stock', $stockMovement->quantity);
         } elseif ($stockMovement->movement_type === 'out') {
             $product->decrement('stock', $stockMovement->quantity);
+            
+            // Pemicu Event: Jika stok di bawah 10, lemparkan Event!
+            if ($product->fresh()->stock < 10) {
+                event(new StockBelowThreshold($product));
+            }
         } elseif ($stockMovement->movement_type === 'adjustment') {
             // Untuk adjustment, asumsinya quantity bisa minus atau plus dari input
             $product->increment('stock', $stockMovement->quantity);
