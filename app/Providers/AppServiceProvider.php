@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 
+// Tambahkan dua baris ini untuk memanggil Interface dan Repository
+use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -12,7 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Daftarkan binding Repository di sini
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**
